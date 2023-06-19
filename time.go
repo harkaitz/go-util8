@@ -18,6 +18,8 @@ func init() {
 	}
 }
 
+// Now returns the actual time. Can be ovewritten by setting the
+// FAKE_TIME environment variable.
 func Now() time.Time {
 	if FakedTimeEnabled {
 		return FakedTime

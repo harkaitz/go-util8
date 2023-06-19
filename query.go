@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// QueryToMap gets the parameters from URL parameters and the
+// POST form and makes a map.
 func QueryToMap(ctx *gin.Context) (kv map[string]string) {
 	kv = map[string]string{}
 	for k, v := range ctx.Request.URL.Query() {
@@ -18,6 +20,7 @@ func QueryToMap(ctx *gin.Context) (kv map[string]string) {
 	return kv
 }
 
+// ArrayToMap converts a "KEY=VALUE" array into a map.
 func ArrayToMap(args []string) (ret map[string]string) {
 	ret = map[string]string {}
 	for _, a := range args {
@@ -31,7 +34,8 @@ func ArrayToMap(args []string) (ret map[string]string) {
 	return
 }
 
-
+// From a route defined as "/something/:p" and gotten "/something/v"
+// fetch "v".
 func GetIDFromPath(ctx *gin.Context, p string) (val int64, err error) {
 	var valS string
 	valS = ctx.Param(p)
@@ -46,6 +50,7 @@ func GetIDFromPath(ctx *gin.Context, p string) (val int64, err error) {
 	return
 }
 
+// From a route as "/something?p=v" fetch the "v" part.
 func GetIDFromQuery(ctx *gin.Context, p string) (val int64, found bool) {
 	var err error
 	val, err = strconv.ParseInt(ctx.Query(p), 10, 64)

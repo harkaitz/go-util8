@@ -3,11 +3,14 @@ package u
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/sessions"
+	"strings"
 	"github.com/jmoiron/sqlx"
 	"net/http"
 	"html/template"
 	"log"
+	"errors"
 )
+
 
 type Website struct {
 	Language       string
@@ -48,6 +51,10 @@ func (w *Website) Error(errl ...error) {
 	}
 }
 
+func (w *Website) ErrorS(err string) {
+	w.Error(errors.New(err))
+}
+
 func (w *Website) SetMessage(msg string) {
 	w.Message = msg
 }
@@ -72,4 +79,23 @@ func (w *Website) ErrorsFound() bool {
 
 func (w *Website) MessageFound() bool {
 	return w.Message != ""
+}
+
+func (w *Website) IsPhoneUserAgent() bool {
+	userAgent := w.Ctx.GetHeader("User-Agent")
+	return false ||
+		strings.Contains(userAgent, "iPhone") ||
+		strings.Contains(userAgent, "Android") ||
+		strings.Contains(userAgent, "Phone")
+}
+
+func (w *Website) Query(key string) string {
+	var val string
+	if val = w.Ctx.Query(key); val != "" {
+		return strings.Trim(val, " \t")
+	} else if val = w.Ctx.PostForm(key); val != "" {
+		return strings.Trim(val, " \t")
+	} else {
+		return ""
+	}
 }

@@ -6,6 +6,9 @@ all:
 clean:
 install:
 update:
+## -- AUTO-SERVICE --
+
+## -- AUTO-SERVICE --
 ## -- AUTO-GO --
 GO_PROGRAMS += bin/$(EXE) 
 .PHONY all-go: $(GO_PROGRAMS)
@@ -18,6 +21,3 @@ install-go:
 clean-go:
 	rm -f $(GO_PROGRAMS)
 ## -- AUTO-GO --
-## -- AUTO-SERVICE --
-
-## -- AUTO-SERVICE --
